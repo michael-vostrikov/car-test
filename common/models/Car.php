@@ -49,9 +49,24 @@ class Car extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'required'],
             [['title', 'image', 'url'], 'string', 'max' => 255],
             [['url'], 'unique'],
+            ['categoryId', 'in', 'range' => array_keys(self::getCategoryList())],
         ];
 
         return $rules;
+    }
+
+    /**
+     * List of car categories
+     *
+     * Need to be removed when car category table will be added
+     */
+    public static function getCategoryList()
+    {
+        return [
+            1 => Yii::t('app', 'Ниссан'),
+            2 => Yii::t('app', 'Вольво'),
+            3 => Yii::t('app', 'Форд'),
+        ];
     }
 
     /**

@@ -10,16 +10,36 @@ use common\models\Car;
 /**
  * CarSearch represents the model behind the search form of `common\models\Car`.
  */
-class CarSearch extends Car
+class CarSearch extends \yii\base\Model
 {
+    public $categoryId;
+    public $priceFrom;
+    public $priceTo;
+    public $yearFrom;
+    public $yearTo;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'status', 'categoryId', 'price', 'year', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'image', 'url'], 'safe'],
+            [['categoryId', 'priceFrom', 'priceTo', 'yearFrom', 'yearTo'], 'integer'],
+            ['categoryId', 'in', 'range' => array_keys(Car::getCategoryList())],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'categoryId' => Yii::t('app', 'Модельный ряд'),
+            'priceFrom' => Yii::t('app', 'Цена от'),
+            'priceTo' => Yii::t('app', 'Цена до'),
+            'yearFrom' => Yii::t('app', 'Год от'),
+            'yearTo' => Yii::t('app', 'Год до'),
         ];
     }
 
@@ -47,7 +67,13 @@ class CarSearch extends Car
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['price', 'created_at']],
         ]);
+
+        // add default sort without icon in interface
+        if (empty($dataProvider->sort->getAttributeOrders())) {
+            $query->orderBy(['created_at' => SORT_DESC]);
+        }
 
         $this->load($params);
 
@@ -58,19 +84,13 @@ class CarSearch extends Car
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-            'categoryId' => $this->categoryId,
-            'price' => $this->price,
-            'year' => $this->year,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'url', $this->url]);
+        $query->andFilterWhere(['categoryId' => $this->categoryId]);
+
+        $query->andFilterWhere(['>=', 'price', $this->priceFrom]);
+        $query->andFilterWhere(['<=', 'price', $this->priceTo]);
+        $query->andFilterWhere(['>=', 'year', $this->yearFrom]);
+        $query->andFilterWhere(['<=', 'year', $this->yearTo]);
 
         return $dataProvider;
     }

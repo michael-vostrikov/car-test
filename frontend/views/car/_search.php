@@ -15,29 +15,28 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'status') ?>
-
-    <?= $form->field($model, 'categoryId') ?>
-
-    <?= $form->field($model, 'title') ?>
-
-    <?= $form->field($model, 'image') ?>
-
-    <?php // echo $form->field($model, 'price') ?>
-
-    <?php // echo $form->field($model, 'url') ?>
-
-    <?php // echo $form->field($model, 'year') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+    <div class="row">
+        <div class="col-sm-2">
+            <?= $form->field($model, 'categoryId')->dropDownList(\common\models\Car::getCategoryList(), ['prompt' => '']) ?>
+        </div>
+        <div class="col-sm-2">
+            <?= $form->field($model, 'priceFrom') ?>
+        </div>
+        <div class="col-sm-2">
+            <?= $form->field($model, 'priceTo') ?>
+        </div>
+        <div class="col-sm-2">
+            <?= $form->field($model, 'yearFrom') ?>
+        </div>
+        <div class="col-sm-2">
+            <?= $form->field($model, 'yearTo') ?>
+        </div>
+        <div class="col-sm-2 text-right">
+            <div class="form-group">
+                <div><label>&nbsp;</label></div>
+                <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+            </div>
+        </div>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -13,28 +13,24 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="car-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
+    <p class="text-right">
         <?= Html::a(Yii::t('app', 'Create Car'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?= $this->render('_search', ['model' => $searchModel]) ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'status',
             'categoryId',
             'title',
             'image',
-            //'price',
-            //'url:url',
-            //'year',
-            //'created_at',
-            //'updated_at',
+            'year',
+            'price',
+            'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
