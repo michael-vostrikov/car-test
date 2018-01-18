@@ -41,6 +41,11 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'car/index' => 'car/index',
+                'car/create' => 'car/create',
+                'car/update' => 'car/update',
+                'car/delete' => 'car/delete',
+                'car/<url>/' => 'car/view',
             ],
         ],
         'formatter' => [

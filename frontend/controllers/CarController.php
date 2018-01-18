@@ -63,14 +63,14 @@ class CarController extends Controller
 
     /**
      * Displays a single Car model.
-     * @param string $id
+     * @param string $url
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($url)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModelByUrl($url),
         ]);
     }
 
@@ -86,7 +86,7 @@ class CarController extends Controller
         $model->status = Car::STATUS_ACTIVE;
 
         if ($form->load(Yii::$app->request->post(), $model->formName()) && $form->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'url' => $model->url]);
         }
 
         return $this->render('create', [
@@ -107,7 +107,7 @@ class CarController extends Controller
         $form = new CarForm($model);
 
         if ($form->load(Yii::$app->request->post(), $model->formName()) && $form->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'url' => $model->url]);
         }
 
         return $this->render('update', [
@@ -139,6 +139,22 @@ class CarController extends Controller
     protected function findModel($id)
     {
         if (($model = Car::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    /**
+     * Finds the Car model based on its internal URL.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param string $url
+     * @return Car the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelByUrl($url)
+    {
+        if (($model = Car::find()->where(['url' => $url])->one()) !== null) {
             return $model;
         }
 

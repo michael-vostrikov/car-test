@@ -35,7 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 return (Car::getStatusList()[$model->status] ?? null);
             }],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'urlCreator' => function ($action, $model) {
+                return ([
+                    'view' => ['car/view', 'url' => $model->url],
+                    'update' => ['car/update', 'id' => $model->id],
+                    'delete' => ['car/delete', 'id' => $model->id],
+                ][$action] ?? null);
+            }],
         ],
     ]); ?>
 </div>
