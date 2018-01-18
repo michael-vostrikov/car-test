@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * Автомобили.
@@ -31,6 +32,9 @@ class Car extends \yii\db\ActiveRecord
      */
     const PATH_UPLOAD_PHOTO = '/upload/car/img';
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+
     /**
      * @inheritdoc
      */
@@ -45,14 +49,23 @@ class Car extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'categoryId', 'price', 'year', 'created_at', 'updated_at'], 'integer'],
-            [['created_at', 'updated_at'], 'required'],
+            [['status', 'categoryId', 'price', 'year'], 'integer'],
             [['title', 'image', 'url'], 'string', 'max' => 255],
+            [['url'], 'required'],
             [['url'], 'unique'],
             ['categoryId', 'in', 'range' => array_keys(self::getCategoryList())],
+            ['status', 'in', 'range' => array_keys(self::getStatusList())],
         ];
+    }
 
-        return $rules;
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'TimestampBehavior' => TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -66,6 +79,19 @@ class Car extends \yii\db\ActiveRecord
             1 => Yii::t('app', 'Ниссан'),
             2 => Yii::t('app', 'Вольво'),
             3 => Yii::t('app', 'Форд'),
+        ];
+    }
+
+    /**
+     * List of car statuses
+     *
+     * Need to be removed when car status table will be added
+     */
+    public function getStatusList()
+    {
+        return [
+            self::STATUS_ACTIVE => Yii::t('app', 'Активно'),
+            self::STATUS_INACTIVE => Yii::t('app', 'Неактивно'),
         ];
     }
 

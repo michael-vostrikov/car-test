@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Car;
 use frontend\models\CarSearch;
+use frontend\models\CarForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -65,8 +66,10 @@ class CarController extends Controller
     public function actionCreate()
     {
         $model = new Car();
+        $form = new CarForm($model);
+        $model->status = Car::STATUS_ACTIVE;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($form->load(Yii::$app->request->post(), $model->formName()) && $form->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -85,8 +88,9 @@ class CarController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $form = new CarForm($model);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($form->load(Yii::$app->request->post(), $model->formName()) && $form->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
