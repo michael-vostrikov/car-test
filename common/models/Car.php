@@ -50,7 +50,7 @@ class Car extends \yii\db\ActiveRecord
     {
         return [
             [['status', 'categoryId', 'price', 'year'], 'integer'],
-            [['title', 'image', 'url'], 'string', 'max' => 255],
+            [['title', 'url'], 'string', 'max' => 255],
             [['url'], 'required'],
             [['url'], 'unique'],
             ['categoryId', 'in', 'range' => array_keys(self::getCategoryList())],
@@ -112,5 +112,14 @@ class Car extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Дата создания'),
             'updated_at' => Yii::t('app', 'Дата обновления'),
         ];
+    }
+
+    /**
+     * Return image relative path from webroot
+     * @return string|null
+     */
+    public function getImageRelativePath()
+    {
+        return ($this->image ? self::PATH_UPLOAD_PHOTO . '/' . $this->image : null);
     }
 }

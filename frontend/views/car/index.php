@@ -23,11 +23,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
+            'id',
             ['attribute' => 'categoryId', 'value' => function($model) {
                 return (Car::getCategoryList()[$model->categoryId] ?? null);
             }],
             'title',
-            'image',
+            ['attribute' => 'image', 'format' => 'raw', 'value' => function ($model) {
+                $relPath = $model->getImageRelativePath();
+                if (!$relPath) {
+                    return null;
+                }
+
+                $url = Yii::getAlias('@web' . $model->getImageRelativePath());
+                return Html::a(Html::img($url, ['width' => '200']), $url, ['target' => '_blank']);
+            }],
             'year',
             'price',
             'created_at:datetime',

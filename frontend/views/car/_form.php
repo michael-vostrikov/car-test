@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use common\models\Car;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Car */
+/* @var $model frontend\models\CarForm */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -25,7 +25,7 @@ use common\models\Car;
 
     <?= $form->field($model, 'status')->dropDownList(Car::getStatusList(), ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
 
 
     <div class="form-group">

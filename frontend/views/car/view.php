@@ -34,8 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 return (Car::getCategoryList()[$model->categoryId] ?? null);
             }],
             'title',
-            'image',
-            'url:url',
+            ['attribute' => 'image', 'format' => 'raw', 'value' => function ($model) {
+                $relPath = $model->getImageRelativePath();
+                if (!$relPath) {
+                    return null;
+                }
+
+                $url = Yii::getAlias('@web' . $model->getImageRelativePath());
+                return Html::a(Html::img($url, ['width' => '200']), $url, ['target' => '_blank']);
+            }],
+            'url',
             'price',
             'year',
             ['attribute' => 'status', 'value' => function($model) {

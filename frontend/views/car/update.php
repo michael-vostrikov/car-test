@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Car */
+/* @var $model frontend\models\CarForm */
 
 $this->title = Yii::t('app', 'Update Car: {nameAttribute}', [
     'nameAttribute' => $model->title,

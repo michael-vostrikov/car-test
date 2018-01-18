@@ -82,15 +82,15 @@ class CarController extends Controller
     public function actionCreate()
     {
         $model = new Car();
-        $form = new CarForm($model);
         $model->status = Car::STATUS_ACTIVE;
+        $form = new CarForm($model);
 
-        if ($form->load(Yii::$app->request->post(), $model->formName()) && $form->save()) {
-            return $this->redirect(['view', 'url' => $model->url]);
+        if ($form->load(Yii::$app->request->post()) && $form->save()) {
+            return $this->redirect(['view', 'url' => $form->url]);
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -106,12 +106,12 @@ class CarController extends Controller
         $model = $this->findModel($id);
         $form = new CarForm($model);
 
-        if ($form->load(Yii::$app->request->post(), $model->formName()) && $form->save()) {
-            return $this->redirect(['view', 'url' => $model->url]);
+        if ($form->load(Yii::$app->request->post()) && $form->save()) {
+            return $this->redirect(['view', 'url' => $form->url]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -124,7 +124,10 @@ class CarController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $form = new CarForm($model);
+        $form->deleteModelFile($model);
+        $model->delete();
 
         return $this->redirect(['index']);
     }
