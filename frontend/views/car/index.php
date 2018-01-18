@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <p class="text-right">
-        <?= Html::a(Yii::t('app', 'Create Car'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Car Card'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= $this->render('_search', ['model' => $searchModel]) ?>

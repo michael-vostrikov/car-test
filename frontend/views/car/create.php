@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\CarForm */
 
-$this->title = Yii::t('app', 'Create Car');
+$this->title = Yii::t('app', 'Create Car Card');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cars'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
