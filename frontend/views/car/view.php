@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\models\Car;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Car */
@@ -29,15 +30,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'status',
-            'categoryId',
+            ['attribute' => 'categoryId', 'value' => function($model) {
+                return (Car::getCategoryList()[$model->categoryId] ?? null);
+            }],
             'title',
             'image',
-            'price',
             'url:url',
+            'price',
             'year',
-            'created_at',
-            'updated_at',
+            ['attribute' => 'status', 'value' => function($model) {
+                return (Car::getStatusList()[$model->status] ?? null);
+            }],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

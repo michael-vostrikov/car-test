@@ -43,6 +43,10 @@ return [
             'rules' => [
             ],
         ],
+        'formatter' => [
+            'dateFormat' => 'php:m-d-Y',
+            'datetimeFormat' => 'php:m-d-Y H:i:s',
+        ],
     ],
     'params' => $params,
 ];

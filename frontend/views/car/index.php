@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\Car;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\CarSearch */
@@ -22,15 +23,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'status',
-            'categoryId',
+            ['attribute' => 'categoryId', 'value' => function($model) {
+                return (Car::getCategoryList()[$model->categoryId] ?? null);
+            }],
             'title',
             'image',
             'year',
             'price',
-            'created_at',
+            'created_at:datetime',
+            ['attribute' => 'status', 'value' => function($model) {
+                return (Car::getStatusList()[$model->status] ?? null);
+            }],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
