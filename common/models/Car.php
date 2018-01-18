@@ -1,5 +1,6 @@
 <?php
-namespace models\car;
+
+namespace common\models;
 
 use Yii;
 
@@ -18,9 +19,8 @@ use Yii;
  * @property integer $updated_at Дата обновления
  *
  */
-class Car
+class Car extends \yii\db\ActiveRecord
 {
-
     /**
      * Количество отображаемых элементов в списке.
      */
@@ -34,14 +34,26 @@ class Car
     /**
      * @inheritdoc
      */
+    public static function tableName()
+    {
+        return '{{%car}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
-        // Необходимо написать правила валидации
-        $rules = [];
+        return [
+            [['status', 'categoryId', 'price', 'year', 'created_at', 'updated_at'], 'integer'],
+            [['created_at', 'updated_at'], 'required'],
+            [['title', 'image', 'url'], 'string', 'max' => 255],
+            [['url'], 'unique'],
+        ];
 
         return $rules;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -59,6 +71,5 @@ class Car
             'created_at' => Yii::t('app', 'Дата создания'),
             'updated_at' => Yii::t('app', 'Дата обновления'),
         ];
-
     }
 }
